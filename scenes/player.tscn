@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://c5henrw6rbg83"]
+[gd_scene load_steps=9 format=3 uid="uid://c5henrw6rbg83"]
 
 [ext_resource type="Texture2D" uid="uid://npdtap32vjn6" path="res://assets/art/characters/soccer-player.png" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://cq0r0osbnt1nw" path="res://scenes/player.gd" id="1_g2els"]
@@ -54,11 +54,30 @@ tracks/0/keys = {
 "values": [6, 7, 8, 9, 10, 11]
 }
 
+[sub_resource type="Animation" id="Animation_dqkch"]
+resource_name = "tackle"
+length = 0.1
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [30]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qhqgy"]
 _data = {
 &"RESET": SubResource("Animation_g2els"),
 &"idle": SubResource("Animation_3vyb7"),
-&"run": SubResource("Animation_qhqgy")
+&"run": SubResource("Animation_qhqgy"),
+&"tackle": SubResource("Animation_dqkch")
 }
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_u8vuu"]

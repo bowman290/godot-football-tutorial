@@ -2,22 +2,33 @@ class_name Player
 extends CharacterBody2D
 
 enum ControlScheme {CPU, P1, P2}
+enum State {IDLE, MOVING, TACKLING, SHOOTING}
 
 @export var control_scheme : ControlScheme;
 @export var speed : float = 50
+
 @onready var animation_player : AnimationPlayer = %AnimationPlayer
 @onready var player_sprite : Sprite2D = %PlayerSprite
+
+var current_state: PlayerState = null
 var heading := Vector2.RIGHT
+var state_factory := PlayerStateFactory.new()
+
+func _ready() -> void:
+	switch_state(State.MOVING)
 
 func _process(delta: float) -> void:
-	
-	if control_scheme == ControlScheme.CPU:
-		pass
-	else:
-		handle_human_movement()
-	set_heading()
 	flip_sprites()
-	set_movement_animation()
+	move_and_slide()
+	
+func switch_state(state:State) -> void:
+	if current_state != null:
+		current_state.queue_free()
+	current_state = state_factory.get_fresh_state(state)
+	current_state.setup(self, animation_player)
+	current_state.state_transition_requested.connect(switch_state.bind())
+	current_state.name = "PlayerStateMachine: " + str(state)
+	call_deferred("add_child", current_state)
 	
 func set_movement_animation() -> void:
 	#if velocity not 0, change the anim
@@ -42,8 +53,3 @@ func flip_sprites():
 		
 		
 		
-func handle_human_movement() -> void:
-	var direction := KeyUtils.get_input_vector(control_scheme)
-		
-	velocity = direction * speed
-	move_and_slide()
