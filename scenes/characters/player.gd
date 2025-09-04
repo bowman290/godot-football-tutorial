@@ -14,6 +14,13 @@ var current_state: PlayerState = null
 var heading := Vector2.RIGHT
 var state_factory := PlayerStateFactory.new()
 
+const ANIMATIONS_MAP : Dictionary = {
+	"IDLE":"idle",
+	"RUN":"run",
+	"TACKLE":"tackle",
+	"RECOVER":"recover"
+}
+
 func _ready() -> void:
 	switch_state(State.MOVING)
 
@@ -33,9 +40,9 @@ func switch_state(state:State) -> void:
 func set_movement_animation() -> void:
 	#if velocity not 0, change the anim
 	if velocity.length() > 0: 
-		animation_player.play("run")
+		animation_player.play(ANIMATIONS_MAP.RUN)
 	else:
-		animation_player.play("idle")
+		animation_player.play(ANIMATIONS_MAP.IDLE)
 		
 	#check the velocity to set run direction
 	

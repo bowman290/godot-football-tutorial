@@ -7,7 +7,7 @@ const GROUND_FRICTION := 250.0
 var time_start_tackle := Time.get_ticks_msec()
 
 func _enter_tree() -> void:
-	animation_player.play("tackle")
+	animation_player.play(player.ANIMATIONS_MAP.TACKLE)
 	time_start_tackle = Time.get_ticks_msec()
 
 func _process(delta: float) -> void:
